@@ -8,6 +8,7 @@ var originalUrls = [];
 var urls = [];
 
 // hold last post ID
+var posts = [];
 var postsAfter = [];
 
 // current post info
@@ -17,8 +18,8 @@ var subreddit;
 
 // question info
 var question = 0;
-var correct = 0;
-var wrong = 0;
+var numCorrect = 0;
+var numWrong = 0;
 
 //misc
 var postCount = 20; //# of posts until next dataset
@@ -31,6 +32,33 @@ var sleep = function(milliseconds) {
       break;
     }
   }
+}
+
+// get whitespace count of String
+String.prototype.getWhitespaceCount = function() {
+	var spaces = this.match(/([\s]+)/g);
+	return (spaces == null ? 0 : spaces.length);
+}
+
+// filters posts
+var filter = function(str) {
+	var trueArr = [];
+	
+	swearTest = RegExp('[^!@#$%^&*]*(shit|fuck|ass|arse|bitch|crap|damn|nigger|cunt)[^!@#$%^&*]*');
+	
+	if(str.getWhitespaceCount() > 2) {
+		trueArr.push(true);
+	} else  {
+		trueArr.push(false);
+	}
+	
+	if(!swearTest.test(str)) {
+		trueArr.push(true);
+	} else  {
+		trueArr.push(false);
+	}
+	
+	return (trueArr.includes(false) ? false : true);
 }
 
 // random number
@@ -79,10 +107,15 @@ var getPosts = function(x,y) {
 		post = data.data.children[randomPost].data;
 		title = post.title;
 		thumb = post.thumbnail;
+		if(filter(title)) {updatePosts(x,y)} else {change();}; 
 		subreddit = post.subreddit;
+	});
+}
+
+// updates text in html
+var updatePosts = function(x, y) {
 		x.innerHTML = title;
 		//y.src = thumb;
-	});
 }
 
 // gets next post
@@ -93,8 +126,8 @@ var change = function() {
 
 // updates score display
 var updateScore = function() {
-	document.getElementById("correct").innerHTML = ('correct: ' + correct);
-	document.getElementById("wrong").innerHTML = ('wrong: ' + wrong);
+	document.getElementById("correct").innerHTML = ('correct: ' + numCorrect);
+	document.getElementById("wrong").innerHTML = ('wrong: ' + numWrong);
 }
 
 // executes if users selects fake
@@ -105,7 +138,7 @@ var fakeSelected = function() {
 		wrong();
 	}
 	updateScore();
-	sleep(1000);
+	//sleep(1000);
 	change();
 }
 
@@ -123,15 +156,15 @@ var realSelected = function() {
 
 // user answers correct
 var correct = function() {
-	correct++;
+	numCorrect++;
 }
 
 // user answers incorrect
 var wrong = function() {
-	wrong++;
+	numWrong++;
 }
 
-//on page load
+// on page load
 // -initalizes URLs
 // -gets first post 
 window.onload = function() {
