@@ -1,5 +1,5 @@
 // hold subreddits
-var trueSubs = ['nottheonion','news'];
+var trueSubs = ['nottheonion'];//,'news'];
 var fakeSubs = ['TheOnion'];
 var subreddits = trueSubs.concat(fakeSubs);;
 
@@ -34,6 +34,12 @@ var sleep = function(milliseconds) {
   }
 }
 
+// rounds numbers to a certain value
+var round = function(value, place) {
+	var roundNum = (place == undefined ? 1000 : 1 * Math.pow(10,place));
+	return Math.round(value * roundNum) / roundNum;
+}
+
 // get whitespace count of String
 String.prototype.getWhitespaceCount = function() {
 	var spaces = this.match(/([\s]+)/g);
@@ -44,7 +50,8 @@ String.prototype.getWhitespaceCount = function() {
 var filter = function(str) {
 	var trueArr = [];
 	
-	swearTest = RegExp('[^!@#$%^&*]*(shit|fuck|ass|arse|bitch|crap|damn|nigger|cunt)[^!@#$%^&*]*');
+	str = str.toLowerCase();
+	swearTest = RegExp('[^!@#$%^&*]*(shit|fuck|ass|arse|bitch|crap|damn|nigger|cunt|sex|said|nude|sexual|assualt|onion|nottheonion|say)[^!@#$%^&*]*');
 	
 	if(str.getWhitespaceCount() > 2) {
 		trueArr.push(true);
@@ -69,7 +76,7 @@ var getRandomInt = function(max) {
 // initialize URLs
 var initUrls = function() {
 	subreddits.forEach(function(element) {
-		originalUrls.push('https://www.reddit.com/r/' + element + '/top.json?sort=top&t=all&limit=50');
+		originalUrls.push('https://www.reddit.com/r/' + element + '/hot.json?sort=hot&t=all&limit=50');
 	});
 	urls = originalUrls;
 }
@@ -96,26 +103,35 @@ var updateUrls = function() {
 // gets random post in dataset
 // gets next dataset after postCount reached
 var getPosts = function(x,y) {
-	var counter = 0
-	counter++;
-	if(counter == postCount) {
-		updateUrls();
-	}
-	var random = getRandomInt(subreddits.length - 1);
-	$.getJSON(urls[random], function(data) {
-		var randomPost = getRandomInt(49);
-		post = data.data.children[randomPost].data;
-		title = post.title;
-		thumb = post.thumbnail;
-		if(filter(title)) {updatePosts(x,y)} else {change();}; 
-		subreddit = post.subreddit;
-	});
+	setTimeout(function () {
+		var counter = 0
+		counter++;
+		if(counter == postCount) {
+			updateUrls();
+		}
+		var random = getRandomInt(subreddits.length);
+		document.getElementById("realBtn").disabled = true;
+		document.getElementById("fakeBtn").disabled = true;
+	
+		$.getJSON(urls[random], function(data) {
+			var randomPost = getRandomInt(49);
+			post = data.data.children[randomPost].data;
+			title = post.title;
+			subreddit = post.subreddit;
+			thumb = post.preview.images[0].source.url;
+			//updatePosts(x,y);
+			if(filter(title)) {updatePosts(x,y)} else {change();}; 
+		});
+	}, 0);
 }
 
 // updates text in html
 var updatePosts = function(x, y) {
-		x.innerHTML = title;
-		//y.src = thumb;
+		x.innerHTML = title;// + subreddit;
+		y.src = thumb;
+		
+		document.getElementById("realBtn").disabled = false;
+		document.getElementById("fakeBtn").disabled = false;
 }
 
 // gets next post
@@ -128,29 +144,28 @@ var change = function() {
 var updateScore = function() {
 	document.getElementById("correct").innerHTML = ('correct: ' + numCorrect);
 	document.getElementById("wrong").innerHTML = ('wrong: ' + numWrong);
+	document.getElementById("percent").innerHTML = ('percent: ' + round((numCorrect / (numCorrect + numWrong)) * 100) + '%');
 }
 
 // executes if users selects fake
 var fakeSelected = function() {
-	if($.inArray(subreddit, fakeSubs)) {
+	if(!$.inArray(subreddit, fakeSubs)) {
 		correct();
 	} else {
 		wrong();
 	}
 	updateScore();
-	//sleep(1000);
 	change();
 }
 
 // executes if users selects real
 var realSelected = function() {
-	if($.inArray(subreddit, trueSubs)) {
+	if(!$.inArray(subreddit, trueSubs)) {
 		correct();
 	} else {
 		wrong();
 	}
 	updateScore();
-	sleep(1000);
 	change();
 }
 

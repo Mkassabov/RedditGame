@@ -1,14 +1,65 @@
+<!DOCTYPE html>
 <html>
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="Main.js"></script>
-	<!--image id='image' src='null'></image-->
-	<p id="postTitle" >TEMP</p>
-	<div style="display:flex">
-		<button style="margin:5px" onclick='realSelected()'>Real</button>
-		<button style="margin:5px" onclick='fakeSelected()'>Fake</button>
-	</div>
-	<button style="margin:5px" onclick='change()'>Next</button>
+	<style>
+		html {
+			font-family: 'Roboto', sans-serif;
+		}
 	
-	<p id="correct" >correect: 0</p>
-	<p id="wrong" >wrong: 0</p>
+		body {
+			background-color: rgb(166, 173, 234);
+		}
+	
+		.buttonR {
+			margin:5px;
+			background-color: green;
+			background: linear-gradient(white, #6aac8b);
+			border-radius: 20px;
+			width: 200px;
+			height: 100px;
+			text-align:center;
+			line-height:100px;
+			font-family: 'Roboto', sans-serif;
+			font-size: 5em;
+		}
+		.buttonF {
+			margin:5px;
+			background-color: red;
+			background: linear-gradient(white, #ac6a8b);
+			border-radius: 20px;
+			width: 200px;
+			height: 100px;
+			text-align:center;
+			line-height:100px;
+			font-family: 'Roboto', sans-serif;
+			font-size: 5em;
+		}
+		.hiddenButton {
+			background: transparent;
+			border: none !important;
+		}
+	</style>
+	<body>
+		
+		<div style="display:flex;justify-content:center;align-items:center;">
+			<image id='image' style="max-height: 400px;" src='null'></image>
+		</div>
+		
+		<div style="display:flex;justify-content:center;align-items:center;text-align:center;font-size: 5em;" id="postTitle"></div>
+		
+		<div style="display:flex;justify-content:center;align-items:center;">
+			<div style="display:flex">
+				<button id="realBtn" onclick='realSelected()' class="hiddenButton"><div class="buttonR">Real</div></button>
+				<button id="fakeBtn" onclick='fakeSelected()' class="hiddenButton"><div class="buttonF">Fake</div></button>
+			</div>
+		</div>
+		
+		<button style="margin:5px" onclick='change()'>Next</button>
+	
+		<p id="correct" >correect: 0</p>
+		<p id="wrong" >wrong: 0</p>
+		<p id="percent">percent: 0%</p>
+	</body>
 </html>
