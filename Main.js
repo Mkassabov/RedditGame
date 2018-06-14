@@ -43,7 +43,7 @@ var filter = function(str) {
 	var trueArr = [];
 	
 	str = str.toLowerCase();
-	swearTest = RegExp('[^!@#$%^&*]*(shit|fuck|ass|arse|bitch|crap|damn|nigger|cunt|sex|said|nude|sexual|assualt|onion|nottheonion|say)[^!@#$%^&*]*');
+	swearTest = RegExp('[^!@#$%^&*]*(shit|fuck|ass|arse|bitch|crap|damn|nigger|cunt|sex|said|nude|sexual|assualt|onion|nottheonion|say|news)[^!@#$%^&*]*');
 	
 	if(str.getWhitespaceCount() > 2) {
 		trueArr.push(true);
