@@ -12,6 +12,15 @@
 			background-color: rgb(166, 173, 234);
 		}
 	
+		#crop {
+			height:auto;
+			overflow: hidden;
+		}
+
+		#crop #image {
+			margin: 0 0 -13.4% 0;
+		}
+	
 		.buttonR {
 			margin:5px;
 			background-color: green;
@@ -24,6 +33,7 @@
 			font-family: 'Roboto', sans-serif;
 			font-size: 5em;
 		}
+		
 		.buttonF {
 			margin:5px;
 			background-color: red;
@@ -36,6 +46,7 @@
 			font-family: 'Roboto', sans-serif;
 			font-size: 5em;
 		}
+		
 		.hiddenButton {
 			background: transparent;
 			border: none !important;
@@ -44,7 +55,9 @@
 	<body>
 		
 		<div style="display:flex;justify-content:center;align-items:center;">
-			<image id='image' style="max-height: 400px;" src='null'></image>
+			<div id='crop'>
+				<image id='image' style="max-height: 400px;" src='null'></image>
+			</div>
 		</div>
 		
 		<div style="display:flex;justify-content:center;align-items:center;text-align:center;font-size: 5em;" id="postTitle"></div>

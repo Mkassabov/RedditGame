@@ -12,6 +12,7 @@ var posts = [];
 var postsAfter = [];
 
 // current post info
+var domain;
 var title;
 var thumb;
 var subreddit;
@@ -119,6 +120,7 @@ var getPosts = function(x,y) {
 			title = post.title;
 			subreddit = post.subreddit;
 			thumb = post.preview.images[0].source.url;
+			domain = post.domain;
 			//updatePosts(x,y);
 			if(filter(title)) {updatePosts(x,y)} else {change();}; 
 		});
@@ -129,7 +131,7 @@ var getPosts = function(x,y) {
 var updatePosts = function(x, y) {
 		x.innerHTML = title;// + subreddit;
 		y.src = thumb;
-		
+	
 		document.getElementById("realBtn").disabled = false;
 		document.getElementById("fakeBtn").disabled = false;
 }
