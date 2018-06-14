@@ -24,16 +24,7 @@ var numWrong = 0;
 
 //misc
 var postCount = 20; //# of posts until next dataset
-
-// sleep function
-var sleep = function(milliseconds) {
-  var start = new Date().getTime();
-  for (var i = 0; i < 1e7; i++) {
-    if ((new Date().getTime() - start) > milliseconds){
-      break;
-    }
-  }
-}
+var counter;
 
 // rounds numbers to a certain value
 var round = function(value, place) {
@@ -105,10 +96,10 @@ var updateUrls = function() {
 // gets next dataset after postCount reached
 var getPosts = function(x,y) {
 	setTimeout(function () {
-		var counter = 0
 		counter++;
 		if(counter == postCount) {
 			updateUrls();
+			counter = 0;
 		}
 		var random = getRandomInt(subreddits.length);
 		document.getElementById("realBtn").disabled = true;
@@ -124,7 +115,7 @@ var getPosts = function(x,y) {
 			//updatePosts(x,y);
 			if(filter(title)) {updatePosts(x,y)} else {change();}; 
 		});
-	}, 0);
+	}, 10);
 }
 
 // updates text in html
