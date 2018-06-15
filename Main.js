@@ -96,15 +96,7 @@ var updateUrls = function() {
 				urls[i] = originalUrls[i] + '&after=' + postAfter[i]; //FIX THIS
 			});
 		})(i);
-	}		
-		
-		/*var finished = false;
-		console.log(j);
-		$.getJSON(urls[j], function(data) {
-			postAfter[j] = data.data.children[49].data.name;
-			urls[j-1] = originalUrls[j-1] + '&after=' + postAfter[j-1]; //FIX THIS
-			finished = false;
-		});*/
+	}	
 }
 
 // gets random post in dataset
