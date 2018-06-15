@@ -9,7 +9,7 @@ var urls = [];
 
 // hold last post ID
 var posts = [];
-var postsAfter = [];
+var postAfter;
 
 // current post info
 var domain;
@@ -23,8 +23,8 @@ var numCorrect = 0;
 var numWrong = 0;
 
 //misc
-var postCount = 20; //# of posts until next dataset
-var counter;
+var postCount = 10; //# of posts until next dataset
+var counter = 0;
 
 // rounds numbers to a certain value
 var round = function(value, place) {
@@ -70,26 +70,41 @@ var initUrls = function() {
 	subreddits.forEach(function(element) {
 		originalUrls.push('https://www.reddit.com/r/' + element + '/hot.json?sort=hot&t=all&limit=50');
 	});
-	urls = originalUrls;
+	urls = originalUrls.slice(0);
 }
 
+// sleep function
+var sleep = function(milliseconds) {
+  var start = new Date().getTime();
+  for (var i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > milliseconds){
+      break;
+    }
+  }
+}
 
 // gets last post ID in current dataset
 // used to refrence creation of following dataset
-var getAfter = function() {
-	for(var obj in originalUrls) {
-		$.getJSON(url, temp = function(data) {
-			postsAfter.psuh(data.data.children[49].data.name);
-		});
-	}
-}
-
-// gets next dataset
 var updateUrls = function() {
-	getAfter();
-	for(i = 0; i < subreddits.length; i++) {
-		urls[i] = originalUrls[i] + '&after=' + postsAfter[i];
-	}	
+	
+	postAfter = [];
+	
+	for (var i = 0; i < urls.length; i++) {
+		(function(i) { // protects i in an immediately called function
+			$.getJSON(urls[i], function (data) {
+				postAfter[i] = data.data.children[49].data.name;
+				urls[i] = originalUrls[i] + '&after=' + postAfter[i]; //FIX THIS
+			});
+		})(i);
+	}		
+		
+		/*var finished = false;
+		console.log(j);
+		$.getJSON(urls[j], function(data) {
+			postAfter[j] = data.data.children[49].data.name;
+			urls[j-1] = originalUrls[j-1] + '&after=' + postAfter[j-1]; //FIX THIS
+			finished = false;
+		});*/
 }
 
 // gets random post in dataset
@@ -110,6 +125,12 @@ var getPosts = function(x,y) {
 			post = data.data.children[randomPost].data;
 			title = post.title;
 			subreddit = post.subreddit;
+			try {
+			   	thumb = post.preview.images[0].source.url;
+			}
+			catch(typeError) {
+				change();
+			}
 			thumb = post.preview.images[0].source.url;
 			domain = post.domain;
 			//updatePosts(x,y);
