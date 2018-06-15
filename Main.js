@@ -73,16 +73,6 @@ var initUrls = function() {
 	urls = originalUrls.slice(0);
 }
 
-// sleep function
-var sleep = function(milliseconds) {
-  var start = new Date().getTime();
-  for (var i = 0; i < 1e7; i++) {
-    if ((new Date().getTime() - start) > milliseconds){
-      break;
-    }
-  }
-}
-
 // gets last post ID in current dataset
 // used to refrence creation of following dataset
 var updateUrls = function() {
