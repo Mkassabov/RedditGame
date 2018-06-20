@@ -18,6 +18,7 @@
 		}
 	
 		body {
+			height: 100%;
 			background-color: #36527F;
 			color: white;
 		}
@@ -109,18 +110,22 @@
 			</div>
 		</div>
 		
-		<div style='border: 1px solid #ccc!important;'>
-			<div id='progBar' style='background-color:white;height:24px;width:100%'></div>
-		</div>
-		
 		<!--div class="container">
 			<div onclick="expand(this);" class="btn-expand"></div>
 		</div-->
 		
 		<!--button style="margin:5px" onclick='change()'>Next</button-->
 	
-		<p id="correct" >correect: 0</p>
+		<!--p id="correct" >correect: 0</p>
 		<p id="wrong" >wrong: 0</p>
-		<p id="percent">percent: 0%</p>
+		<p id="percent">percent: 0%</p-->
+		
+		
+		<div style='border: 1px solid #ccc!important;margin-top: 150px;'>
+			<!--div id="percent" style="position:absolute;width:100%;color:black;display:flex;justify-content:center;align-items:center">percent: 0%</div-->
+			<div id='progBar' style='background-color:white;height:24px;width:0%'></div>
+		</div>
+		<div id="percent" style="width:100%;color:white;display:flex;justify-content:center;align-items:center;font-size: 3em;">Percent Correct: 0%</div>
+			
 	</body>
 </html>

@@ -28,7 +28,7 @@ var counter = 0;
 
 // rounds numbers to a certain value
 var round = function(value, place) {
-	var roundNum = (place == undefined ? 1000 : 1 * Math.pow(10,place));
+	var roundNum = (place == undefined ? 100 : 1 * Math.pow(10,place));
 	return Math.round(value * roundNum) / roundNum;
 }
 
@@ -43,7 +43,7 @@ var filter = function(str) {
 	var trueArr = [];
 	
 	str = str.toLowerCase();
-	swearTest = RegExp('[^!@#$%^&*]*(shit|fuck|ass|arse|bitch|crap|damn|nigger|cunt|sex|said|nude|sexual|assualt|onion|nottheonion|say|news)[^!@#$%^&*]*');
+	swearTest = RegExp('[^!@#$%^&*]*(shit|fuck|ass|arse|bitch|crap|damn|down syndrome|porn|impregnated|nigger|cunt|testicles|quiz|sex|said|nude|sexual|assualt|onion|nottheonion|say|news|emo|[?])[^!@#$%^&*]*');
 	
 	if(str.getWhitespaceCount() > 2) {
 		trueArr.push(true);
@@ -82,7 +82,7 @@ var updateUrls = function() {
 	for (var i = 0; i < urls.length; i++) {
 		(function(i) { // protects i in an immediately called function
 			$.getJSON(urls[i], function (data) {
-				postAfter[i] = data.data.children[49].data.name;
+				postAfter[i] = data.data.children[47].data.name;
 				urls[i] = originalUrls[i] + '&after=' + postAfter[i]; //FIX THIS
 			});
 		})(i);
@@ -138,11 +138,14 @@ var change = function() {
 
 // updates score display
 var updateScore = function() {
-	document.getElementById("correct").innerHTML = ('correct: ' + numCorrect);
-	document.getElementById("wrong").innerHTML = ('wrong: ' + numWrong);
+	//document.getElementById("correct").innerHTML = ('correct: ' + numCorrect);
+	//document.getElementById("wrong").innerHTML = ('wrong: ' + numWrong);
 	var percent = round((numCorrect / (numCorrect + numWrong)) * 100);
-	document.getElementById("percent").innerHTML = ('percent: ' + percent + '%');
+	document.getElementById("percent").innerHTML = ('Percent Correct: ' + percent + '%');
 	document.getElementById("progBar").style.width = percent + "%";
+	console.log('correct: ' + numCorrect);
+	console.log('wrong: ' + numWrong);
+	
 }
 
 // executes if users selects fake
