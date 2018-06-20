@@ -140,7 +140,9 @@ var change = function() {
 var updateScore = function() {
 	document.getElementById("correct").innerHTML = ('correct: ' + numCorrect);
 	document.getElementById("wrong").innerHTML = ('wrong: ' + numWrong);
-	document.getElementById("percent").innerHTML = ('percent: ' + round((numCorrect / (numCorrect + numWrong)) * 100) + '%');
+	var percent = round((numCorrect / (numCorrect + numWrong)) * 100);
+	document.getElementById("percent").innerHTML = ('percent: ' + percent + '%');
+	document.getElementById("progBar").style.width = percent + "%";
 }
 
 // executes if users selects fake
